@@ -58,6 +58,12 @@ export interface StageData {
   fields: Record<string, string>;
 }
 
+export interface PasoArmado {
+  id: string;
+  texto: string;
+  foto?: string; // dataURL, redimensionada antes de guardar
+}
+
 export interface Proyecto {
   id: string;
   nombre: string;
@@ -70,6 +76,7 @@ export interface Proyecto {
   precioConfig: PrecioConfig;
   bitacora: BitacoraEntry[];
   troubleshooting: TroubleshootingEntry[];
+  pasosArmado: PasoArmado[];
 }
 
 export const STAGE_ORDER: StageId[] = [

@@ -10,6 +10,7 @@ import {
   BitacoraEntry,
   TroubleshootingEntry,
   PrecioConfig,
+  PasoArmado,
 } from "./types";
 import { STAGES_META } from "./stages-meta";
 
@@ -61,6 +62,10 @@ interface State {
   addTroubleshooting: (pid: string, entry: Omit<TroubleshootingEntry, "id">) => void;
   updateTroubleshooting: (pid: string, entryId: string, patch: Partial<TroubleshootingEntry>) => void;
   removeTroubleshooting: (pid: string, entryId: string) => void;
+  addPasoArmado: (pid: string) => void;
+  updatePasoArmado: (pid: string, pasoId: string, patch: Partial<Omit<PasoArmado, "id">>) => void;
+  removePasoArmado: (pid: string, pasoId: string) => void;
+  moverPasoArmado: (pid: string, pasoId: string, direccion: "up" | "down") => void;
 }
 
 function touch(p: Proyecto) {
@@ -86,6 +91,7 @@ export const useStore = create<State>()(
           precioConfig: { ...defaultPrecioConfig },
           bitacora: [],
           troubleshooting: [],
+          pasosArmado: [],
         };
         set((s) => ({ proyectos: [nuevo, ...s.proyectos] }));
         return id;
@@ -105,7 +111,7 @@ export const useStore = create<State>()(
           for (const p of importados) {
             if (porId.has(p.id)) reemplazados++;
             else agregados++;
-            porId.set(p.id, p);
+            porId.set(p.id, { ...p, pasosArmado: p.pasosArmado || [] });
           }
           return { proyectos: Array.from(porId.values()) };
         });
@@ -276,7 +282,80 @@ export const useStore = create<State>()(
           }),
         }));
       },
+
+      addPasoArmado: (pid) => {
+        set((s) => ({
+          proyectos: s.proyectos.map((p) => {
+            if (p.id !== pid) return p;
+            const np = {
+              ...p,
+              pasosArmado: [...(p.pasosArmado || []), { id: uuidv4(), texto: "" }],
+            };
+            touch(np);
+            return np;
+          }),
+        }));
+      },
+
+      updatePasoArmado: (pid, pasoId, patch) => {
+        set((s) => ({
+          proyectos: s.proyectos.map((p) => {
+            if (p.id !== pid) return p;
+            const np = {
+              ...p,
+              pasosArmado: (p.pasosArmado || []).map((paso) =>
+                paso.id === pasoId ? { ...paso, ...patch } : paso
+              ),
+            };
+            touch(np);
+            return np;
+          }),
+        }));
+      },
+
+      removePasoArmado: (pid, pasoId) => {
+        set((s) => ({
+          proyectos: s.proyectos.map((p) => {
+            if (p.id !== pid) return p;
+            const np = {
+              ...p,
+              pasosArmado: (p.pasosArmado || []).filter((paso) => paso.id !== pasoId),
+            };
+            touch(np);
+            return np;
+          }),
+        }));
+      },
+
+      moverPasoArmado: (pid, pasoId, direccion) => {
+        set((s) => ({
+          proyectos: s.proyectos.map((p) => {
+            if (p.id !== pid) return p;
+            const pasos = [...(p.pasosArmado || [])];
+            const idx = pasos.findIndex((paso) => paso.id === pasoId);
+            const target = direccion === "up" ? idx - 1 : idx + 1;
+            if (idx === -1 || target < 0 || target >= pasos.length) return p;
+            [pasos[idx], pasos[target]] = [pasos[target], pasos[idx]];
+            const np = { ...p, pasosArmado: pasos };
+            touch(np);
+            return np;
+          }),
+        }));
+      },
     }),
-    { name: "mecatronic-thing-storage" }
+    {
+      name: "mecatronic-thing-storage",
+      version: 1,
+      migrate: (persistedState: unknown, version: number) => {
+        const state = persistedState as { proyectos?: Proyecto[] };
+        if (version < 1 && state.proyectos) {
+          state.proyectos = state.proyectos.map((p) => ({
+            ...p,
+            pasosArmado: p.pasosArmado || [],
+          }));
+        }
+        return state as State;
+      },
+    }
   )
 );

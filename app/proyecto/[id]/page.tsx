@@ -19,7 +19,8 @@ import { EditarProyectoMeta } from "@/components/EditarProyectoMeta";
 import { DesignImageGenerator } from "@/components/DesignImageGenerator";
 import { Design3DViewer } from "@/components/Design3DViewer";
 import { AIAssistantPanel } from "@/components/AIAssistantPanel";
-import { ArrowLeft, ChevronLeft, ChevronRight, Rocket } from "lucide-react";
+import { GuiaArmado } from "@/components/GuiaArmado";
+import { ArrowLeft, ChevronLeft, ChevronRight, Rocket, LayoutDashboard } from "lucide-react";
 
 export default function ProyectoPage() {
   const params = useParams<{ id: string }>();
@@ -66,9 +67,17 @@ export default function ProyectoPage() {
         <Link href="/" className="inline-flex items-center gap-2 text-muted hover:text-text text-sm">
           <ArrowLeft size={16} /> Proyectos
         </Link>
-        <div className="flex items-center gap-3 w-64">
-          <ProgressBar pct={pct} />
-          <span className="text-xs text-muted w-10 text-right">{pct}%</span>
+        <div className="flex items-center gap-4">
+          <Link
+            href={`/proyecto/${proyecto.id}/reporte`}
+            className="flex items-center gap-2 border border-accent/40 text-accent hover:bg-accent/10 px-3 py-1.5 rounded-lg transition text-sm"
+          >
+            <LayoutDashboard size={15} /> Ver reporte
+          </Link>
+          <div className="flex items-center gap-3 w-52">
+            <ProgressBar pct={pct} />
+            <span className="text-xs text-muted w-10 text-right">{pct}%</span>
+          </div>
         </div>
       </div>
 
@@ -138,6 +147,11 @@ export default function ProyectoPage() {
                   <StageGeneric proyecto={proyecto} stage={stage} />
                   <Design3DViewer proyecto={proyecto} />
                   <DesignImageGenerator proyecto={proyecto} />
+                </div>
+              ) : stage === "final" ? (
+                <div className="space-y-8">
+                  <StageGeneric proyecto={proyecto} stage={stage} />
+                  <GuiaArmado proyecto={proyecto} />
                 </div>
               ) : (
                 <StageGeneric proyecto={proyecto} stage={stage} />

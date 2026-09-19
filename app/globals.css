@@ -31,3 +31,27 @@ body {
 input, textarea, select {
   color-scheme: dark;
 }
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .report-page {
+    background: #ffffff !important;
+    color: #111319 !important;
+  }
+  .report-page * {
+    color: #111319 !important;
+    background-color: transparent !important;
+    border-color: #d0d3da !important;
+    box-shadow: none !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .report-hero {
+    background: #f4f6fb !important;
+  }
+  .report-page section {
+    break-inside: avoid;
+  }
+}
