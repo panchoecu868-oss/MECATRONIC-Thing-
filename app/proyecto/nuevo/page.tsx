@@ -4,25 +4,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useStore } from "@/lib/store";
+import { AREAS_MECATRONICA } from "@/lib/constants";
 import { ArrowLeft } from "lucide-react";
-
-const AREAS = [
-  "Robótica / Manipuladores",
-  "Automatización industrial",
-  "Instrumentación y sensores",
-  "Vehículos autónomos / móviles",
-  "Domótica / IoT",
-  "Bioingeniería / prótesis",
-  "Energía / control de potencia",
-  "Otro",
-];
 
 export default function NuevoProyectoPage() {
   const router = useRouter();
   const crearProyecto = useStore((s) => s.crearProyecto);
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [area, setArea] = useState(AREAS[0]);
+  const [area, setArea] = useState(AREAS_MECATRONICA[0]);
 
   const puedeCrear = nombre.trim().length > 2;
 
@@ -63,7 +53,7 @@ export default function NuevoProyectoPage() {
             onChange={(e) => setArea(e.target.value)}
             className="w-full bg-panel border border-border rounded-lg px-3 py-2.5 outline-none focus:border-accent"
           >
-            {AREAS.map((a) => (
+            {AREAS_MECATRONICA.map((a) => (
               <option key={a} value={a}>
                 {a}
               </option>

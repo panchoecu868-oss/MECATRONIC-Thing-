@@ -14,6 +14,7 @@ import { StageMateriales } from "@/components/StageMateriales";
 import { StagePrecio } from "@/components/StagePrecio";
 import { StageBitacora } from "@/components/StageBitacora";
 import { StageTroubleshooting } from "@/components/StageTroubleshooting";
+import { EditarProyectoMeta } from "@/components/EditarProyectoMeta";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function ProyectoPage() {
@@ -63,8 +64,7 @@ export default function ProyectoPage() {
       </div>
 
       <div className="mb-8">
-        <h1 className="text-2xl font-semibold tracking-tight">{proyecto.nombre}</h1>
-        <p className="text-sm text-muted">{proyecto.areaMecatronica}</p>
+        <EditarProyectoMeta proyecto={proyecto} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-[240px_1fr] gap-8">

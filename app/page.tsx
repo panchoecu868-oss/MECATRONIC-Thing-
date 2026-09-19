@@ -67,6 +67,7 @@ export default function HomePage() {
             type="file"
             accept="application/json"
             className="hidden"
+            suppressHydrationWarning
             onChange={handleImportFile}
           />
           <Link
