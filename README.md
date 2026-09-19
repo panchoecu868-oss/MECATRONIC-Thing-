@@ -4,9 +4,10 @@ App que guía paso a paso a mecatrónicos junior en sus proyectos individuales: 
 
 ## Stack
 
-- Next.js 14 (App Router) + TypeScript
+- Next.js 16 (App Router) + TypeScript
 - Tailwind CSS
-- Zustand con persistencia en `localStorage` (sin backend; cada navegador guarda sus propios proyectos)
+- Zustand con persistencia en `localStorage` (sin backend propio; cada navegador guarda sus propios proyectos)
+- Un único endpoint de servidor (`app/api/generate-design-image`) para la generación de imagen conceptual por IA, que mantiene la API key fuera del cliente
 
 ## Etapas del flujo
 
@@ -28,6 +29,20 @@ npm run dev
 ```
 
 Abrir [http://localhost:3000](http://localhost:3000).
+
+### Generación de imagen conceptual por IA (opcional)
+
+La etapa de Diseño puede generar una imagen conceptual del producto con DALL-E 3.
+Para habilitarla:
+
+```bash
+cp .env.example .env.local
+# completar OPENAI_API_KEY con una key de https://platform.openai.com/api-keys
+```
+
+Sin esa variable configurada, el botón sigue visible pero muestra un mensaje de error
+claro en vez de fallar en silencio. Cada imagen generada tiene un costo (~USD 0.04) en
+la cuenta de OpenAI dueña de la key.
 
 ## Build de producción
 
