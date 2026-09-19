@@ -44,6 +44,7 @@ interface State {
   crearProyecto: (nombre: string, descripcionCorta: string, areaMecatronica: string) => string;
   eliminarProyecto: (id: string) => void;
   getProyecto: (id: string) => Proyecto | undefined;
+  importarProyectos: (proyectos: Proyecto[]) => { agregados: number; reemplazados: number };
   actualizarStageNotes: (pid: string, stage: StageId, notes: string) => void;
   actualizarStageField: (pid: string, stage: StageId, key: string, value: string) => void;
   toggleChecklistItem: (pid: string, stage: StageId, itemId: string) => void;
@@ -91,6 +92,21 @@ export const useStore = create<State>()(
       },
 
       getProyecto: (id) => get().proyectos.find((p) => p.id === id),
+
+      importarProyectos: (importados) => {
+        let agregados = 0;
+        let reemplazados = 0;
+        set((s) => {
+          const porId = new Map(s.proyectos.map((p) => [p.id, p]));
+          for (const p of importados) {
+            if (porId.has(p.id)) reemplazados++;
+            else agregados++;
+            porId.set(p.id, p);
+          }
+          return { proyectos: Array.from(porId.values()) };
+        });
+        return { agregados, reemplazados };
+      },
 
       actualizarStageNotes: (pid, stage, notes) => {
         set((s) => ({
