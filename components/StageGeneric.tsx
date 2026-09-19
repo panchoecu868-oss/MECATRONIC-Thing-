@@ -63,13 +63,22 @@ export function StageGeneric({ proyecto, stage }: { proyecto: Proyecto; stage: S
           {meta.fields.map((f) => (
             <div key={f.key}>
               <label className="block text-sm font-medium mb-1.5">{f.label}</label>
-              <textarea
-                value={data.fields[f.key] || ""}
-                onChange={(e) => actualizarStageField(proyecto.id, stage, f.key, e.target.value)}
-                placeholder={f.placeholder}
-                rows={3}
-                className="w-full bg-panel border border-border rounded-lg px-3 py-2.5 outline-none focus:border-accent resize-y text-sm"
-              />
+              {f.type === "text" ? (
+                <input
+                  value={data.fields[f.key] || ""}
+                  onChange={(e) => actualizarStageField(proyecto.id, stage, f.key, e.target.value)}
+                  placeholder={f.placeholder}
+                  className="w-full bg-panel border border-border rounded-lg px-3 py-2.5 outline-none focus:border-accent text-sm"
+                />
+              ) : (
+                <textarea
+                  value={data.fields[f.key] || ""}
+                  onChange={(e) => actualizarStageField(proyecto.id, stage, f.key, e.target.value)}
+                  placeholder={f.placeholder}
+                  rows={3}
+                  className="w-full bg-panel border border-border rounded-lg px-3 py-2.5 outline-none focus:border-accent resize-y text-sm"
+                />
+              )}
             </div>
           ))}
         </section>
