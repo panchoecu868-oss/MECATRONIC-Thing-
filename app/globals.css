@@ -12,8 +12,8 @@ html, body {
 }
 
 body {
-  background-color: #050307;
-  color: #eef0f4;
+  background-color: #07070f;
+  color: #eef0fa;
 }
 
 ::-webkit-scrollbar {
@@ -21,10 +21,10 @@ body {
   height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #050307;
+  background: #07070f;
 }
 ::-webkit-scrollbar-thumb {
-  background: #3a1830;
+  background: #2c2c52;
   border-radius: 6px;
 }
 

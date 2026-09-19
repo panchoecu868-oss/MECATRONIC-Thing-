@@ -8,16 +8,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "#050307",
-        panel: "#120a10",
-        panel2: "#1a0f16",
-        border: "#3a1830",
-        accent: "#1bf2dd",
-        accent2: "#0fdbf2",
-        warn: "#a6175a",
-        danger: "#a6175a",
-        text: "#eef0f4",
-        muted: "#9a8a95",
+        bg: "#07070f",
+        panel: "#0e0e1e",
+        panel2: "#161629",
+        border: "#2c2c52",
+        accent: "#3b82f6",
+        accent2: "#a855f7",
+        warn: "#f87171",
+        danger: "#dc2626",
+        text: "#eef0fa",
+        muted: "#9d97b8",
       },
       fontFamily: {
         mono: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],

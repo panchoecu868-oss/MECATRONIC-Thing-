@@ -7,8 +7,10 @@ App que guía paso a paso a mecatrónicos junior en sus proyectos individuales: 
 - Next.js 16 (App Router) + TypeScript
 - Tailwind CSS
 - Zustand con persistencia en `localStorage` (sin backend propio; cada navegador guarda sus propios proyectos)
-- Endpoint de servidor propio (`app/api/generate-design-image`) para la generación de imagen conceptual por IA, que mantiene la API key fuera del cliente
+- Endpoints de servidor propios para IA generativa (`app/api/generate-design-image`, `app/api/ai-assistant`), que mantienen las API keys fuera del cliente
+- Asistente IA (Claude Opus 5, vía `@anthropic-ai/sdk`) en las 9 etapas: genera un plan de acción específico para cada proyecto y responde preguntas puntuales usando todo lo ya cargado como contexto
 - Visor 3D paramétrico (react-three-fiber / drei), gratis y sin API key, para una primera referencia de proporciones en la etapa de Diseño
+- Animaciones (framer-motion): transición entre etapas, aparición escalonada de la guía/checklist, hover en las tarjetas del dashboard, banner de bienvenida en la etapa de Idea
 
 ## Etapas del flujo
 
@@ -44,6 +46,20 @@ cp .env.example .env.local
 Sin esa variable configurada, el botón sigue visible pero muestra un mensaje de error
 claro en vez de fallar en silencio. Cada imagen generada tiene un costo (~USD 0.04) en
 la cuenta de OpenAI dueña de la key.
+
+### Asistente IA (opcional)
+
+Cada etapa tiene un panel de "Asistente IA" que genera un plan de acción específico
+para el proyecto o responde una pregunta puntual, usando Claude Opus 5. Para habilitarlo:
+
+```bash
+cp .env.example .env.local
+# completar ANTHROPIC_API_KEY con una key de https://console.anthropic.com/settings/keys
+```
+
+Sin esa variable, el panel sigue visible pero muestra el error claro en vez de fallar
+en silencio. El costo depende del uso real (facturado a la cuenta de Anthropic dueña
+de la key) — no hay un número fijo por generación como con DALL-E.
 
 ## Build de producción
 

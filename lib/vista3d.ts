@@ -12,16 +12,16 @@ export const VISTA3D_DEFAULT: Vista3DConfig = {
   profundidad: 20,
   alto: 15,
   numEslabones: 2,
-  color: "#1bf2dd",
+  color: "#3b82f6",
   plataforma: true,
 };
 
 export const VISTA3D_COLORES = [
-  { label: "Turquesa", hex: "#1bf2dd" },
-  { label: "Cian", hex: "#0fdbf2" },
-  { label: "Magenta", hex: "#a6175a" },
-  { label: "Teal oscuro", hex: "#096873" },
-  { label: "Vino", hex: "#590a2f" },
+  { label: "Azul", hex: "#3b82f6" },
+  { label: "Morado", hex: "#a855f7" },
+  { label: "Rojo", hex: "#dc2626" },
+  { label: "Índigo", hex: "#4f46e5" },
+  { label: "Violeta", hex: "#7c3aed" },
 ];
 
 export function parseVista3DConfig(raw: string | undefined): Vista3DConfig {

@@ -2,11 +2,21 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { useStore } from "@/lib/store";
 import { progresoTotal } from "@/lib/calc";
 import { exportarProyectos, parsearArchivoImportado } from "@/lib/exportImport";
 import { ProgressBar } from "@/components/ProgressBar";
 import { Cpu, Plus, Wrench, Download, Upload } from "lucide-react";
+
+const staggerContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.07 } },
+};
+const cardVariant = {
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0 },
+};
 
 export default function HomePage() {
   const proyectos = useStore((s) => s.proyectos);
@@ -89,41 +99,51 @@ export default function HomePage() {
           </p>
         </div>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2">
+        <motion.div
+          className="grid gap-4 sm:grid-cols-2"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+        >
           {proyectos.map((p) => {
             const pct = progresoTotal(p);
             return (
-              <Link
+              <motion.div
                 key={p.id}
-                href={`/proyecto/${p.id}`}
-                className="group border border-border bg-panel rounded-xl p-5 hover:border-accent/60 transition block"
+                variants={cardVariant}
+                whileHover={{ y: -3, transition: { duration: 0.15 } }}
               >
-                <div className="flex items-start justify-between mb-2">
-                  <h2 className="font-semibold text-text group-hover:text-accent transition">
-                    {p.nombre}
-                  </h2>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (confirm(`¿Eliminar "${p.nombre}"? Esta acción no se puede deshacer.`)) {
-                        eliminarProyecto(p.id);
-                      }
-                    }}
-                    className="text-xs text-muted hover:text-danger"
-                  >
-                    Eliminar
-                  </button>
-                </div>
-                <p className="text-sm text-muted mb-1">{p.areaMecatronica}</p>
-                <p className="text-sm text-muted line-clamp-2 mb-4">{p.descripcionCorta}</p>
-                <div className="flex items-center gap-3">
-                  <ProgressBar pct={pct} />
-                  <span className="text-xs text-muted w-10 text-right">{pct}%</span>
-                </div>
-              </Link>
+                <Link
+                  href={`/proyecto/${p.id}`}
+                  className="group border border-border bg-panel rounded-xl p-5 hover:border-accent/60 hover:shadow-lg hover:shadow-accent/10 transition block"
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <h2 className="font-semibold text-text group-hover:text-accent transition">
+                      {p.nombre}
+                    </h2>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (confirm(`¿Eliminar "${p.nombre}"? Esta acción no se puede deshacer.`)) {
+                          eliminarProyecto(p.id);
+                        }
+                      }}
+                      className="text-xs text-muted hover:text-danger"
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                  <p className="text-sm text-muted mb-1">{p.areaMecatronica}</p>
+                  <p className="text-sm text-muted line-clamp-2 mb-4">{p.descripcionCorta}</p>
+                  <div className="flex items-center gap-3">
+                    <ProgressBar pct={pct} />
+                    <span className="text-xs text-muted w-10 text-right">{pct}%</span>
+                  </div>
+                </Link>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       )}
     </main>
   );

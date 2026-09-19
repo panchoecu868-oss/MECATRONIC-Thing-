@@ -1,9 +1,19 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { useStore } from "@/lib/store";
 import { Proyecto, StageId } from "@/lib/types";
 import { STAGES_META } from "@/lib/stages-meta";
 import { Lightbulb, Check } from "lucide-react";
+
+const staggerContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.06 } },
+};
+const fadeInItem = {
+  hidden: { opacity: 0, x: -8 },
+  show: { opacity: 1, x: 0 },
+};
 
 export function StageGeneric({ proyecto, stage }: { proyecto: Proyecto; stage: StageId }) {
   const meta = STAGES_META[stage];
@@ -18,26 +28,42 @@ export function StageGeneric({ proyecto, stage }: { proyecto: Proyecto; stage: S
           <Lightbulb size={18} />
           <h3 className="font-medium">Guía técnica</h3>
         </div>
-        <ul className="space-y-2.5">
+        <motion.ul
+          className="space-y-2.5"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+        >
           {meta.guia.map((g, i) => (
-            <li key={i} className="text-sm text-muted leading-relaxed flex gap-2">
+            <motion.li
+              key={i}
+              variants={fadeInItem}
+              className="text-sm text-muted leading-relaxed flex gap-2"
+            >
               <span className="text-accent2 shrink-0">›</span>
               <span>{g}</span>
-            </li>
+            </motion.li>
           ))}
-        </ul>
+        </motion.ul>
       </section>
 
       {meta.checklistDefault.length > 0 && (
         <section>
           <h3 className="font-medium mb-3">Checklist de la etapa</h3>
-          <div className="space-y-2">
+          <motion.div
+            className="space-y-2"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="show"
+          >
             {data.checklist.map((item) => (
-              <label
+              <motion.label
                 key={item.id}
+                variants={fadeInItem}
                 className="flex items-center gap-3 bg-panel border border-border rounded-lg px-3 py-2.5 cursor-pointer hover:border-accent/40 transition"
               >
-                <span
+                <motion.span
+                  whileTap={{ scale: 0.85 }}
                   onClick={(e) => {
                     e.preventDefault();
                     toggleChecklistItem(proyecto.id, stage, item.id);
@@ -47,13 +73,13 @@ export function StageGeneric({ proyecto, stage }: { proyecto: Proyecto; stage: S
                   }`}
                 >
                   {item.done && <Check size={14} />}
-                </span>
+                </motion.span>
                 <span className={`text-sm ${item.done ? "text-muted line-through" : ""}`}>
                   {item.label}
                 </span>
-              </label>
+              </motion.label>
             ))}
-          </div>
+          </motion.div>
         </section>
       )}
 
