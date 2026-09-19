@@ -16,6 +16,7 @@ import { StageBitacora } from "@/components/StageBitacora";
 import { StageTroubleshooting } from "@/components/StageTroubleshooting";
 import { EditarProyectoMeta } from "@/components/EditarProyectoMeta";
 import { DesignImageGenerator } from "@/components/DesignImageGenerator";
+import { Design3DViewer } from "@/components/Design3DViewer";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function ProyectoPage() {
@@ -93,6 +94,7 @@ export default function ProyectoPage() {
           ) : stage === "diseno" ? (
             <div className="space-y-8">
               <StageGeneric proyecto={proyecto} stage={stage} />
+              <Design3DViewer proyecto={proyecto} />
               <DesignImageGenerator proyecto={proyecto} />
             </div>
           ) : (
