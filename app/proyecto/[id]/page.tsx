@@ -17,6 +17,7 @@ import { StageTroubleshooting } from "@/components/StageTroubleshooting";
 import { EditarProyectoMeta } from "@/components/EditarProyectoMeta";
 import { DesignImageGenerator } from "@/components/DesignImageGenerator";
 import { Design3DViewer } from "@/components/Design3DViewer";
+import { Design3DAIGenerator } from "@/components/Design3DAIGenerator";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function ProyectoPage() {
@@ -95,6 +96,7 @@ export default function ProyectoPage() {
             <div className="space-y-8">
               <StageGeneric proyecto={proyecto} stage={stage} />
               <Design3DViewer proyecto={proyecto} />
+              <Design3DAIGenerator proyecto={proyecto} />
               <DesignImageGenerator proyecto={proyecto} />
             </div>
           ) : (

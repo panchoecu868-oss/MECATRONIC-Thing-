@@ -2,20 +2,8 @@
 
 import { useState } from "react";
 import { Proyecto } from "@/lib/types";
+import { construirPromptDiseno } from "@/lib/designPrompt";
 import { Sparkles, Download, RotateCw, ImageIcon } from "lucide-react";
-
-function construirPromptBase(proyecto: Proyecto): string {
-  const diseno = proyecto.stages.diseno.fields;
-  const partes = [
-    `Concepto de producto mecatrónico: "${proyecto.nombre}".`,
-    proyecto.descripcionCorta && `Descripción: ${proyecto.descripcionCorta}.`,
-    proyecto.areaMecatronica && `Área: ${proyecto.areaMecatronica}.`,
-    diseno.cinematica && `Mecanismo: ${diseno.cinematica}.`,
-    diseno.materiales && `Materiales: ${diseno.materiales}.`,
-    diseno.electronica && `Electrónica visible: ${diseno.electronica}.`,
-  ].filter(Boolean);
-  return partes.join(" ");
-}
 
 export function DesignImageGenerator({ proyecto }: { proyecto: Proyecto }) {
   const [detalles, setDetalles] = useState("");
@@ -26,7 +14,7 @@ export function DesignImageGenerator({ proyecto }: { proyecto: Proyecto }) {
   const generar = async () => {
     setLoading(true);
     setError(null);
-    const base = construirPromptBase(proyecto);
+    const base = construirPromptDiseno(proyecto);
     const prompt = [
       base,
       detalles.trim() && `Detalles visuales adicionales: ${detalles.trim()}.`,
