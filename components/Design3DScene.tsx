@@ -30,7 +30,7 @@ function Eslabon({
       <group position={[0, length, 0]}>
         <mesh>
           <sphereGeometry args={[radius * 1.3, 16, 16]} />
-          <meshStandardMaterial color="#26313f" />
+          <meshStandardMaterial color="#3a1830" />
         </mesh>
         <Eslabon index={index + 1} total={total} length={length * 0.85} radius={radius * 0.8} color={color} />
       </group>
@@ -48,7 +48,7 @@ function Modelo({ config }: { config: Vista3DConfig }) {
       {plataforma && (
         <mesh position={[0, -alto / 2 - 0.5, 0]}>
           <boxGeometry args={[ancho * 1.4, 1, profundidad * 1.4]} />
-          <meshStandardMaterial color="#1a2230" />
+          <meshStandardMaterial color="#1a0f16" />
         </mesh>
       )}
       <mesh position={[0, 0, 0]}>
@@ -68,10 +68,10 @@ export default function Design3DScene({ config }: { config: Vista3DConfig }) {
   const escala = Math.max(config.ancho, config.profundidad, config.alto);
   return (
     <Canvas camera={{ position: [escala * 0.7, escala * 1.4, escala * 2.1], fov: 45 }}>
-      <color attach="background" args={["#0b0f14"]} />
+      <color attach="background" args={["#050307"]} />
       <ambientLight intensity={0.6} />
       <directionalLight position={[escala, escala * 2, escala]} intensity={1} />
-      <gridHelper args={[escala * 6, 20, "#26313f", "#1a2230"]} />
+      <gridHelper args={[escala * 6, 20, "#3a1830", "#1a0f16"]} />
       <Modelo config={config} />
       <OrbitControls enableDamping dampingFactor={0.1} minDistance={escala} maxDistance={escala * 10} />
     </Canvas>
