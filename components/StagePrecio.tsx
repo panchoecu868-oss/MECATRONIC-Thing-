@@ -4,6 +4,7 @@ import { useStore } from "@/lib/store";
 import { Proyecto, PrecioConfig } from "@/lib/types";
 import { calcularPrecio } from "@/lib/calc";
 import { STAGES_META } from "@/lib/stages-meta";
+import { StageChecklist } from "./StageChecklist";
 import { Lightbulb } from "lucide-react";
 
 function NumField({
@@ -62,6 +63,8 @@ export function StagePrecio({ proyecto }: { proyecto: Proyecto }) {
           ))}
         </ul>
       </section>
+
+      <StageChecklist proyecto={proyecto} stage="precio" />
 
       <section className="grid gap-4 sm:grid-cols-2">
         <NumField

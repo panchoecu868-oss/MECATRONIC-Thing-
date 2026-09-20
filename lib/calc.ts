@@ -38,26 +38,8 @@ export function stageProgresoById(p: Proyecto, stage: StageId): number {
   const doneChecklist = data.checklist.filter((c) => c.done).length;
 
   const totalItems = totalCampos + totalChecklist;
-  if (totalItems === 0) {
-    // stages without fields/checklist (materiales, precio, bitacora, troubleshooting)
-    return stageProgresoSinCampos(p, stage);
-  }
+  if (totalItems === 0) return 0;
   return Math.round(((camposLlenos + doneChecklist) / totalItems) * 100);
-}
-
-function stageProgresoSinCampos(p: Proyecto, stage: StageId): number {
-  switch (stage) {
-    case "materiales":
-      return p.materiales.length > 0 ? 100 : 0;
-    case "precio":
-      return p.materiales.length > 0 ? 100 : 0;
-    case "bitacora":
-      return p.bitacora.length > 0 ? 100 : 0;
-    case "troubleshooting":
-      return p.troubleshooting.length > 0 ? 100 : 0;
-    default:
-      return 0;
-  }
 }
 
 export function progresoTotal(p: Proyecto): number {

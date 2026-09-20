@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useStore } from "@/lib/store";
 import { Proyecto } from "@/lib/types";
 import { STAGES_META } from "@/lib/stages-meta";
+import { StageChecklist } from "./StageChecklist";
 import { Lightbulb, Plus, Trash2, Clock } from "lucide-react";
 
 const today = () => new Date().toISOString().slice(0, 10);
@@ -50,6 +51,8 @@ export function StageBitacora({ proyecto }: { proyecto: Proyecto }) {
           ))}
         </ul>
       </section>
+
+      <StageChecklist proyecto={proyecto} stage="bitacora" />
 
       <form onSubmit={handleAdd} className="bg-panel border border-border rounded-xl p-4 space-y-3">
         <div className="grid gap-3 sm:grid-cols-4">

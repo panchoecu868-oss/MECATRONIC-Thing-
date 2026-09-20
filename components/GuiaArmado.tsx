@@ -15,6 +15,7 @@ export function GuiaArmado({ proyecto }: { proyecto: Proyecto }) {
   const moverPasoArmado = useStore((s) => s.moverPasoArmado);
   const [hablando, setHablando] = useState<string | null>(null);
   const fileInputs = useRef<Record<string, HTMLInputElement | null>>({});
+  const activeVoiceId = useRef<string | null>(null);
 
   const pasos = proyecto.pasosArmado || [];
 
@@ -28,20 +29,27 @@ export function GuiaArmado({ proyecto }: { proyecto: Proyecto }) {
     }
   };
 
+  const iniciarVoz = (id: string, texto: string) => {
+    activeVoiceId.current = id;
+    hablar(texto, () => {
+      if (activeVoiceId.current === id) setHablando(null);
+    });
+    setHablando(id);
+  };
+
   const escucharPaso = (id: string, texto: string) => {
     if (hablando === id) {
+      activeVoiceId.current = null;
       detenerVoz();
       setHablando(null);
       return;
     }
-    hablar(texto);
-    setHablando(id);
+    iniciarVoz(id, texto);
   };
 
   const escucharTodo = () => {
     const texto = pasos.map((p, i) => `Paso ${i + 1}. ${p.texto}`).join(". ");
-    hablar(texto);
-    setHablando("todo");
+    iniciarVoz("todo", texto);
   };
 
   return (

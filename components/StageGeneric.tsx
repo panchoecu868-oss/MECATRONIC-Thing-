@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import { useStore } from "@/lib/store";
 import { Proyecto, StageId } from "@/lib/types";
 import { STAGES_META } from "@/lib/stages-meta";
-import { Lightbulb, Check } from "lucide-react";
+import { StageChecklist } from "./StageChecklist";
+import { Lightbulb } from "lucide-react";
 
 const staggerContainer = {
   hidden: {},
@@ -19,7 +20,6 @@ export function StageGeneric({ proyecto, stage }: { proyecto: Proyecto; stage: S
   const meta = STAGES_META[stage];
   const data = proyecto.stages[stage];
   const actualizarStageField = useStore((s) => s.actualizarStageField);
-  const toggleChecklistItem = useStore((s) => s.toggleChecklistItem);
 
   return (
     <div className="space-y-8">
@@ -47,41 +47,7 @@ export function StageGeneric({ proyecto, stage }: { proyecto: Proyecto; stage: S
         </motion.ul>
       </section>
 
-      {meta.checklistDefault.length > 0 && (
-        <section>
-          <h3 className="font-medium mb-3">Checklist de la etapa</h3>
-          <motion.div
-            className="space-y-2"
-            variants={staggerContainer}
-            initial="hidden"
-            animate="show"
-          >
-            {data.checklist.map((item) => (
-              <motion.label
-                key={item.id}
-                variants={fadeInItem}
-                className="flex items-center gap-3 bg-panel border border-border rounded-lg px-3 py-2.5 cursor-pointer hover:border-accent/40 transition"
-              >
-                <motion.span
-                  whileTap={{ scale: 0.85 }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    toggleChecklistItem(proyecto.id, stage, item.id);
-                  }}
-                  className={`w-5 h-5 rounded flex items-center justify-center shrink-0 border ${
-                    item.done ? "bg-accent border-accent text-bg" : "border-border"
-                  }`}
-                >
-                  {item.done && <Check size={14} />}
-                </motion.span>
-                <span className={`text-sm ${item.done ? "text-muted line-through" : ""}`}>
-                  {item.label}
-                </span>
-              </motion.label>
-            ))}
-          </motion.div>
-        </section>
-      )}
+      <StageChecklist proyecto={proyecto} stage={stage} />
 
       {meta.fields.length > 0 && (
         <section className="space-y-5">

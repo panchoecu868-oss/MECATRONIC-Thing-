@@ -58,11 +58,7 @@ export default function ReportePage() {
   const postmortem = proyecto.stages.final.fields["postmortem"];
   const mantenimiento = proyecto.stages.final.fields["mantenimiento"];
   const pasos = proyecto.pasosArmado || [];
-
-  const totalMaterialesCosto = proyecto.materiales.reduce(
-    (a, m) => a + m.cantidad * m.precioUnitario,
-    0
-  );
+  const totalMaterialesCosto = costoDirecto;
 
   const escucharResumen = () => {
     const texto = `Reporte de ${proyecto.nombre}. Área: ${proyecto.areaMecatronica}. Progreso: ${pct} por ciento. ${

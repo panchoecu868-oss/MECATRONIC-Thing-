@@ -5,6 +5,7 @@ import { useStore } from "@/lib/store";
 import { Proyecto, MaterialItem } from "@/lib/types";
 import { costoDirectoBOM } from "@/lib/calc";
 import { STAGES_META } from "@/lib/stages-meta";
+import { StageChecklist } from "./StageChecklist";
 import { Lightbulb, Plus, Trash2, Check } from "lucide-react";
 
 const CATEGORIAS: MaterialItem["categoria"][] = [
@@ -66,6 +67,8 @@ export function StageMateriales({ proyecto }: { proyecto: Proyecto }) {
           ))}
         </ul>
       </section>
+
+      <StageChecklist proyecto={proyecto} stage="materiales" />
 
       <section>
         <h3 className="font-medium mb-3">Lista de materiales (BOM)</h3>

@@ -1,4 +1,5 @@
-import { Proyecto } from "./types";
+import { Proyecto, StageData, StageId, STAGE_ORDER } from "./types";
+import { emptyStages } from "./store";
 
 interface ExportFile {
   app: "mecatronic-thing";
@@ -40,6 +41,26 @@ function esProyectoValido(p: unknown): p is Proyecto {
   );
 }
 
+function repararStages(stages: unknown): Record<StageId, StageData> {
+  const base = emptyStages();
+  if (typeof stages !== "object" || stages === null) return base;
+  const o = stages as Record<string, unknown>;
+  for (const id of STAGE_ORDER) {
+    const s = o[id];
+    if (
+      typeof s === "object" &&
+      s !== null &&
+      typeof (s as StageData).notes === "string" &&
+      Array.isArray((s as StageData).checklist) &&
+      typeof (s as StageData).fields === "object" &&
+      (s as StageData).fields !== null
+    ) {
+      base[id] = s as StageData;
+    }
+  }
+  return base;
+}
+
 export function parsearArchivoImportado(raw: string): Proyecto[] {
   let data: unknown;
   try {
@@ -60,5 +81,9 @@ export function parsearArchivoImportado(raw: string): Proyecto[] {
   if (validos.length === 0) {
     throw new Error("No se encontró ningún proyecto válido dentro del archivo.");
   }
-  return validos;
+  return validos.map((p) => ({
+    ...p,
+    stages: repararStages(p.stages),
+    pasosArmado: p.pasosArmado || [],
+  }));
 }

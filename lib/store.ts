@@ -26,7 +26,7 @@ function emptyStageData(id: StageId): StageData {
   };
 }
 
-function emptyStages(): Record<StageId, StageData> {
+export function emptyStages(): Record<StageId, StageData> {
   const out = {} as Record<StageId, StageData>;
   for (const s of STAGE_ORDER) out[s] = emptyStageData(s);
   return out;
