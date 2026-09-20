@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: #07070f;
+  color: #eef0fa;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #07070f;
+}
+::-webkit-scrollbar-thumb {
+  background: #2c2c52;
+  border-radius: 6px;
+}
+
+input, textarea, select {
+  color-scheme: dark;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .report-page {
+    background: #ffffff !important;
+    color: #111319 !important;
+  }
+  .report-page * {
+    color: #111319 !important;
+    background-color: transparent !important;
+    border-color: #d0d3da !important;
+    box-shadow: none !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .report-hero {
+    background: #f4f6fb !important;
+  }
+  .report-page section {
+    break-inside: avoid;
+  }
+}
